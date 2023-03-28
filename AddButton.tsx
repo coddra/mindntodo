@@ -1,10 +1,11 @@
+import { useContext } from 'react'
 import { Button, Colors } from 'react-native-ui-lib'
 
-interface AddButtonProps {
-    setShowDialog: (show: (show: boolean) => boolean) => void
-}
+import { DialogContext } from './Context'
 
-export function AddButton({ setShowDialog }: AddButtonProps) {
+export function AddButton() {
+    const { setShowDialog } = useContext(DialogContext)
+
     return (
         <Button
             iconSource={require('./assets/plus.png')}

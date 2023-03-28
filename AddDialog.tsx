@@ -1,24 +1,22 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useContext } from 'react'
 import { TextInput } from 'react-native'
 import { Dialog, TextField, Colors, Button } from 'react-native-ui-lib'
 
 import { TodoItemData } from './TodoItem'
+import { DataContext, DialogContext } from './Context'
 
-interface AddDialogProps {
-    show: boolean
-    setShow: (show: (show: boolean) => boolean) => void
-    setData: (data: (data: TodoItemData[]) => TodoItemData[]) => void
-}
-
-export function AddDialog({ show, setShow, setData }: AddDialogProps) {
+export function AddDialog() {
     const input = useRef<TextInput>(null)
     let text = ''
 
+    const { setData } = useContext(DataContext)
+    const { showDialog, setShowDialog } = useContext(DialogContext)
+
     useEffect(() => {
-        if (show) {
+        if (showDialog) {
             setTimeout(() => input.current?.focus(), 450)
         }
-    }, [show])
+    }, [showDialog])
 
     function generateID(text: string, data: TodoItemData[]) {
         let i = 0
@@ -31,11 +29,11 @@ export function AddDialog({ show, setShow, setData }: AddDialogProps) {
         if (text !== '') {
             setData((d) => [...d, { id: generateID(text, d), text: text, done: false }])
         }
-        setShow((v) => false)
+        setShowDialog((v) => false)
     }
 
     return (
-        <Dialog visible={show} onDismiss={() => setShow(() => false)}
+        <Dialog visible={showDialog} onDismiss={() => setShowDialog(() => false)}
             containerStyle={{ height: 120, backgroundColor: Colors.white, padding: 16, borderRadius: 8 }}>
             <TextField
                 ref={input}

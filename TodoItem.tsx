@@ -1,10 +1,11 @@
+import { useContext } from 'react'
 import { Drawer, Colors, Checkbox } from 'react-native-ui-lib'
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
+import { DataContext } from './Context'
+
 interface TodoItemProps {
     id: string,
-    data: TodoItemData[],
-    setData: (data: (d: TodoItemData[]) => TodoItemData[]) => void
 }
 
 export interface TodoItemData {
@@ -13,8 +14,10 @@ export interface TodoItemData {
     done: boolean,
 }
 
-export function TodoItem({ id, data, setData }: TodoItemProps) {
+export function TodoItem({ id }: TodoItemProps) {
     const height = useSharedValue(60)
+    const { data, setData } = useContext(DataContext)
+
     function myData() {
         return data.find(d => d.id === id)
     }
